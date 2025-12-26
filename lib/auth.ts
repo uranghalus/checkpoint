@@ -3,6 +3,15 @@ import { admin as adminPg, organization, username } from 'better-auth/plugins';
 import { nextCookies } from 'better-auth/next-js';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { prisma } from './prisma';
+import {
+  ac,
+  admin,
+  generalManager,
+  inspector,
+  manager,
+  orgAdmin,
+  superadmin,
+} from './auth-permission';
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: 'mysql', // or "mysql", "postgresql", ...etc
@@ -33,14 +42,15 @@ export const auth = betterAuth({
     nextCookies(),
     username(),
     adminPg({
-      // adminRoles: ['admin', 'superadmin'],
-      //   ac,
-      //   roles: {
-      //     admin,
-      //     superadmin,
-      //     inspector,
-      //     manager,
-      //   },
+      ac,
+      roles: {
+        orgAdmin,
+        admin,
+        superadmin,
+        inspector,
+        manager,
+        generalManager,
+      },
     }),
   ],
 });
