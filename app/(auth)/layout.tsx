@@ -1,7 +1,8 @@
+import Logo from '@/components/logo'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import React, { ReactNode } from 'react'
-import Logo from '../assets/logo'
+
 
 interface AuthLayoutProps {
     children: ReactNode
