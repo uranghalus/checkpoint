@@ -24,11 +24,10 @@ export default async function DashboardLayout({
     const defaultOpen = sidebarState !== "false"
 
     const session = await getServerSession()
-    console.log('session', session);
 
     if (!session) redirect('/signin');
     return (
-        <SearchProvider>
+        <SearchProvider >
             <LayoutProvider>
                 <SidebarProvider defaultOpen={defaultOpen}>
                     <AppSidebar />
@@ -42,7 +41,7 @@ export default async function DashboardLayout({
                     >
                         <Header>
                             <div className="ms-auto flex items-center space-x-4">
-                                <Search />
+
                                 <ThemeSwitch />
                                 <ProfileDropdown />
                             </div>

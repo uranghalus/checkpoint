@@ -9,7 +9,7 @@ export async function getServerSession() {
   });
 
   if (!session?.user) {
-    throw new Error('Unauthenticated');
+    return null;
   }
 
   return session;
