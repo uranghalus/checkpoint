@@ -1,27 +1,28 @@
-import { Main } from '@/components/main'
-import { requirePermission } from '@/lib/auth-control-server'
-
-import { forbidden } from 'next/navigation'
 import React from 'react'
+import { OrganizationTable } from './component/org-table'
+import { Main } from '@/components/main'
+import { DialogProvider } from '@/context/dialog-provider'
+import OrgDialogs from './component/org-dialogs'
+import OrgPrimaryButton from './component/org-primary-button'
 
-export default async function OrganizationPage() {
-    const { allowed } = await requirePermission({
-        resource: 'project',
-        action: 'view',
-    })
-    if (!allowed) forbidden()
+
+export default function OrganizationPage() {
     return (
-        <Main fluid className='space-y-6'>
-            <div>
-                <h1 className="text-2xl font-semibold">
-                    Organization
-                </h1>
-                <p className="text-sm text-muted-foreground">
-                    manajemen pengaturan Organization
-                </p>
-            </div>
-        </Main>
+        <DialogProvider>
+            <Main fluid className='flex flex-1 flex-col gap-4 sm:gap-6'>
+                <div className='flex flex-wrap items-end justify-between gap-2'>
+                    <div>
+                        <h2 className='text-2xl font-bold tracking-tight'>Unit Bisnis</h2>
+                        <p className='text-muted-foreground'>
+                            Kelola unit bisnis organisasi Anda di sini.
+                        </p>
+                    </div>
+                    <OrgPrimaryButton />
+                </div>
+                <OrganizationTable />
+            </Main>
+            <OrgDialogs />
+        </DialogProvider>
     )
 }
-
 
