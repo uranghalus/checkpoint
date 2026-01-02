@@ -4,8 +4,12 @@ import { Main } from '@/components/main'
 import { DialogProvider } from '@/context/dialog-provider'
 import OrgDialogs from './component/org-dialogs'
 import OrgPrimaryButton from './component/org-primary-button'
+import { Metadata } from 'next'
 
-
+export const metadata: Metadata = {
+    title: 'Unit Bisnis',
+    description: 'Halaman unit bisnis',
+};
 export default function OrganizationPage() {
     return (
         <DialogProvider>

@@ -1,4 +1,4 @@
-import { createOrganization, deleteOrganization, getOrganizations, updateOrganization } from "@/action/organization-action";
+import { createOrganization, deleteOrganization, deleteOrganizationsBulk, getOrganizations, updateOrganization } from "@/action/organization-action";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useOrganizations({
@@ -59,6 +59,20 @@ export function useDeleteOrganization() {
     return useMutation({
         mutationFn: (organizationId: string) =>
             deleteOrganization(organizationId),
+
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['organizations'],
+            })
+        },
+    })
+}
+export function useDeleteOrganizationsBulk() {
+    const queryClient = useQueryClient()
+
+    return useMutation({
+        mutationFn: (organizationIds: string[]) =>
+            deleteOrganizationsBulk(organizationIds),
 
         onSuccess: () => {
             queryClient.invalidateQueries({

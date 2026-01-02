@@ -1,6 +1,6 @@
 'use client'
 import { type Row } from '@tanstack/react-table'
-import { EllipsisIcon, EllipsisVerticalIcon, Trash2, UserPen } from 'lucide-react'
+import { EllipsisIcon, EllipsisVerticalIcon, Search, Trash2, UserPen } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
     DropdownMenu,
@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { type Organization } from '@/generated/prisma/client'
 import { useDialog } from '@/context/dialog-provider'
+import Link from 'next/link'
 
 
 type DataTableRowActionsProps = {
@@ -33,6 +34,16 @@ export function OrgRowActions({ row }: DataTableRowActionsProps) {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align='end' className='w-[160px]'>
+                    <DropdownMenuItem
+                        asChild
+                    >
+                        <Link href={`/organization/${row.original.id}`}>
+                            Lihat Data
+                            <DropdownMenuShortcut>
+                                <Search size={16} />
+                            </DropdownMenuShortcut>
+                        </Link>
+                    </DropdownMenuItem>
                     <DropdownMenuItem
                         onClick={() => {
                             setCurrentRow(row.original)

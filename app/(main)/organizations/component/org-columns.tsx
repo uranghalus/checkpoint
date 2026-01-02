@@ -47,11 +47,26 @@ export const orgColumns: ColumnDef<Organization>[] = [
         cell: ({ cell }) => {
             return <div className="font-medium ps-2">{cell.getValue<Organization['slug']>()}</div>
         },
-        size: 500
+    },
+    {
+        accessorKey: 'createdAt',
+        header: ({ column }: { column: Column<Organization, unknown> }) => (
+            <DataTableColumnHeader column={column} title="Tanggal Dibuat" />
+        ),
+        cell: ({ row }) =>
+            new Date(row.original.createdAt).toLocaleDateString(),
     },
     {
         id: 'actions',
+        header: '',
+        size: 48,
+        minSize: 48,
+        maxSize: 48,
+        enableResizing: false,
         cell: OrgRowActions,
-        size: 380
+        meta: {
+            thClassName: 'sticky right-0 z-20 bg-background',
+            tdClassName: 'sticky right-0 z-10 bg-background',
+        },
     }
 ] 

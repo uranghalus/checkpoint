@@ -92,3 +92,20 @@ export async function deleteOrganization(organizationId: string) {
   revalidatePath('/organizations');
   return data;
 }
+export async function deleteOrganizationsBulk(organizationIds: string[]) {
+  const session = await getServerSession();
+  if (!session) throw new Error('Unauthorized');
+
+  if (!organizationIds.length) return;
+
+  await Promise.all(
+    organizationIds.map(async (organizationId) =>
+      auth.api.deleteOrganization({
+        body: { organizationId },
+        headers: await headers(),
+      })
+    )
+  );
+
+  revalidatePath('/organizations');
+}

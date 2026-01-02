@@ -52,6 +52,7 @@ export function useDataTable<TData>({
     },
 
     enableRowSelection: true,
+    enableColumnResizing: true,
     columnResizeMode,
     columnResizeDirection,
     onRowSelectionChange: setRowSelection,

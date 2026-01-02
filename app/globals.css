@@ -220,23 +220,34 @@
 }
 .resizer {
   position: absolute;
+  right: 0;
   top: 0;
   height: 100%;
-  width: 5px;
+  width: 6px;
   cursor: col-resize;
   user-select: none;
   touch-action: none;
+  background: transparent;
 }
 
-.resizer.ltr {
-  right: 0;
-}
-
-.resizer.rtl {
-  left: 0;
+.resizer:hover {
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .resizer.isResizing {
-  background-color: hsl(var(--primary));
-  opacity: 0.5;
+  background: hsl(var(--primary));
+  opacity: 0.6;
+}
+[data-slot='table'] {
+  width: max-content;
+  min-width: 100%;
+}
+[data-slot='table'] {
+  table-layout: fixed;
+}
+[data-slot='table'] td.sticky {
+  position: sticky;
+}
+.sticky.right-0 {
+  box-shadow: -8px 0 8px -8px rgba(0, 0, 0, 0.15);
 }

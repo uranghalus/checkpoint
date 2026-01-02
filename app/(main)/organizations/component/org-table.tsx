@@ -7,6 +7,8 @@ import { orgColumns } from './org-columns'
 import { useDataTable } from '@/hooks/use-data-table'
 import { useOrganizations } from '@/hooks/use-organization'
 import { DataTablePagination } from '@/components/datatable/datatable-pagination'
+import { DataTableToolbar } from '@/components/datatable/datatable-toolbar'
+import { OrganizationsBulkActions } from './org-bulk-action'
 
 
 export function OrganizationTable() {
@@ -30,8 +32,24 @@ export function OrganizationTable() {
 
     return (
         <div className='p-3 rounded-md border space-y-4'>
+            <DataTableToolbar
+                table={table}
+                searchKey="name"
+                searchPlaceholder="Search organization..."
+                filters={[
+                    {
+                        columnId: 'slug',
+                        title: 'Slug',
+                        options: [
+                            { label: 'Contains dash (-)', value: '-' },
+                            { label: 'No dash', value: 'nodash' },
+                        ],
+                    },
+                ]}
+            />
             <DataTable table={table} loading={isLoading} />
             <DataTablePagination table={table} pageCount={data?.pageCount ?? 0} />
+            <OrganizationsBulkActions table={table} />
         </div>
     )
 }
