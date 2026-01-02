@@ -16,7 +16,8 @@ type UseDataTableProps<TData> = {
   data: TData[];
   columns: ColumnDef<TData, any>[];
   pageCount: number;
-
+  columnResizeMode: any;
+  columnResizeDirection?: any;
   pagination: {
     pageIndex: number;
     pageSize: number;
@@ -29,6 +30,9 @@ export function useDataTable<TData>({
   columns,
   pageCount,
   pagination,
+  columnResizeMode = 'onChange',
+  columnResizeDirection = 'ltr',
+
   onPaginationChange,
 }: UseDataTableProps<TData>) {
   const [rowSelection, setRowSelection] = useState({});
@@ -40,7 +44,6 @@ export function useDataTable<TData>({
     columns,
     pageCount,
     manualPagination: true,
-
     state: {
       pagination,
       sorting,
@@ -49,6 +52,8 @@ export function useDataTable<TData>({
     },
 
     enableRowSelection: true,
+    columnResizeMode,
+    columnResizeDirection,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     onColumnVisibilityChange: setColumnVisibility,

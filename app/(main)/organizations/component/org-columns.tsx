@@ -27,7 +27,7 @@ export const orgColumns: ColumnDef<Organization>[] = [
         ),
         enableSorting: false,
         enableHiding: false,
-        size: 0
+        size: 10
     },
     {
         accessorKey: "name",
@@ -37,7 +37,7 @@ export const orgColumns: ColumnDef<Organization>[] = [
         cell: ({ cell }) => {
             return <div className="font-medium ps-2">{cell.getValue<Organization['name']>()}</div>
         },
-        size: 250
+        // size: 250
     },
     {
         accessorKey: "slug",
@@ -51,6 +51,7 @@ export const orgColumns: ColumnDef<Organization>[] = [
     },
     {
         id: 'actions',
-        cell: OrgRowActions
+        cell: OrgRowActions,
+        size: 380
     }
 ] 

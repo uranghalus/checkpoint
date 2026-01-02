@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 'use client'
 
 import { flexRender } from '@tanstack/react-table'
@@ -12,25 +11,24 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
-import { Loader } from 'lucide-react'
-
 
 type DataTableProps<TData> = {
     table: any
-    emptyText?: string
     loading?: boolean
+    emptyText?: string
 }
 
 export function DataTable<TData>({
     table,
-    emptyText = 'No results.',
     loading = false,
+    emptyText = 'No results.',
 }: DataTableProps<TData>) {
+    const columnResizeMode = table.options.columnResizeMode
     const columnCount = table.getAllColumns().length
 
     return (
         <div className="overflow-hidden rounded-md border">
-            <Table className="min-w-xl">
+            <Table style={{ width: table.getCenterTotalSize() }}>
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup: any) => (
                         <TableRow key={headerGroup.id}>
@@ -39,9 +37,10 @@ export function DataTable<TData>({
                                     key={header.id}
                                     colSpan={header.colSpan}
                                     className={cn(
-                                        header.column.columnDef.meta?.className,
+                                        'relative select-none',
                                         header.column.columnDef.meta?.thClassName
                                     )}
+                                    style={{ width: header.getSize() }}
                                 >
                                     {header.isPlaceholder
                                         ? null
@@ -49,6 +48,32 @@ export function DataTable<TData>({
                                             header.column.columnDef.header,
                                             header.getContext()
                                         )}
+
+                                    {/* RESIZER */}
+                                    {header.column.getCanResize() && (
+                                        <div
+                                            onDoubleClick={() => header.column.resetSize()}
+                                            onMouseDown={header.getResizeHandler()}
+                                            onTouchStart={header.getResizeHandler()}
+                                            className={cn(
+                                                'resizer',
+                                                table.options.columnResizeDirection,
+                                                header.column.getIsResizing() && 'isResizing'
+                                            )}
+                                            style={{
+                                                transform:
+                                                    columnResizeMode === 'onEnd' &&
+                                                        header.column.getIsResizing()
+                                                        ? `translateX(${(table.options.columnResizeDirection === 'rtl'
+                                                            ? -1
+                                                            : 1) *
+                                                        (table.getState().columnSizingInfo
+                                                            .deltaOffset ?? 0)
+                                                        }px)`
+                                                        : undefined,
+                                            }}
+                                        />
+                                    )}
                                 </TableHead>
                             ))}
                         </TableRow>
@@ -57,35 +82,18 @@ export function DataTable<TData>({
 
                 <TableBody>
                     {loading ? (
-                        Array.from({ length: 5 }).map((_, i) => (
-                            <TableRow key={i}>
-                                {Array.from({ length: columnCount }).map(
-                                    (_, j) => (
-                                        <TableCell key={j}>
-                                            <div className="space-x-2">
-                                                <Loader className='size-5' />
-                                                Mohon Tunggu Sebentar...
-                                            </div>
-                                        </TableCell>
-                                    )
-                                )}
-                            </TableRow>
-                        ))
-                    ) : table.getRowModel().rows?.length ? (
+                        <TableRow>
+                            <TableCell colSpan={columnCount} className="h-24 text-center">
+                                Loading...
+                            </TableCell>
+                        </TableRow>
+                    ) : table.getRowModel().rows.length ? (
                         table.getRowModel().rows.map((row: any) => (
-                            <TableRow
-                                key={row.id}
-                                data-state={
-                                    row.getIsSelected() && 'selected'
-                                }
-                            >
+                            <TableRow key={row.id}>
                                 {row.getVisibleCells().map((cell: any) => (
                                     <TableCell
                                         key={cell.id}
-                                        className={cn(
-                                            cell.column.columnDef.meta?.className,
-                                            cell.column.columnDef.meta?.tdClassName
-                                        )}
+                                        style={{ width: cell.column.getSize() }}
                                     >
                                         {flexRender(
                                             cell.column.columnDef.cell,
@@ -97,10 +105,7 @@ export function DataTable<TData>({
                         ))
                     ) : (
                         <TableRow>
-                            <TableCell
-                                colSpan={columnCount}
-                                className="h-24 text-center"
-                            >
+                            <TableCell colSpan={columnCount} className="h-24 text-center">
                                 {emptyText}
                             </TableCell>
                         </TableRow>

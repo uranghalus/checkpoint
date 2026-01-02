@@ -20,6 +20,8 @@ export function OrganizationTable() {
     const { table } = useDataTable({
         data: data?.data ?? [],
         columns: orgColumns as any,
+        columnResizeMode: 'onEnd',
+
         pageCount: data?.pageCount ?? 0,
         pagination,
         onPaginationChange: setPagination,
