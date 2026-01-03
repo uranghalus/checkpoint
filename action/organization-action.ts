@@ -109,3 +109,26 @@ export async function deleteOrganizationsBulk(organizationIds: string[]) {
 
   revalidatePath('/organizations');
 }
+type getOrganizations = {
+  organizationId: string;
+  organizationSlug?: string;
+  membersLimit?: number;
+};
+
+export async function getOrganizationDetail({
+  organizationId,
+  organizationSlug,
+  membersLimit = 250,
+}: getOrganizations) {
+  const session = await getServerSession();
+  if (!session) throw new Error('Unauthorized');
+  const data = await auth.api.getFullOrganization({
+    query: {
+      organizationId: organizationId,
+      organizationSlug: organizationSlug,
+      membersLimit: membersLimit,
+    },
+    headers: await headers(),
+  });
+  return data;
+}

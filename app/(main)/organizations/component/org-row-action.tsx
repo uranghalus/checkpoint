@@ -1,6 +1,6 @@
 'use client'
 import { type Row } from '@tanstack/react-table'
-import { EllipsisIcon, EllipsisVerticalIcon, Search, Trash2, UserPen } from 'lucide-react'
+import { EllipsisIcon, EllipsisVerticalIcon, Search, SquarePen, Trash2, User, UserPen, Users } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
     DropdownMenu,
@@ -13,6 +13,7 @@ import {
 import { type Organization } from '@/generated/prisma/client'
 import { useDialog } from '@/context/dialog-provider'
 import Link from 'next/link'
+import { ButtonGroup } from '@/components/ui/button-group'
 
 
 type DataTableRowActionsProps = {
@@ -22,54 +23,24 @@ type DataTableRowActionsProps = {
 export function OrgRowActions({ row }: DataTableRowActionsProps) {
     const { setOpen, setCurrentRow } = useDialog()
     return (
-        <>
-            <DropdownMenu modal={false}>
-                <DropdownMenuTrigger asChild>
-                    <Button
-                        variant='ghost'
-                        className='flex h-8 w-8 p-0 data-[state=open]:bg-muted'
-                    >
-                        <EllipsisIcon className='h-4 w-4' />
-                        <span className='sr-only'>Open menu</span>
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align='end' className='w-[160px]'>
-                    <DropdownMenuItem
-                        asChild
-                    >
-                        <Link href={`/organization/${row.original.id}`}>
-                            Lihat Data
-                            <DropdownMenuShortcut>
-                                <Search size={16} />
-                            </DropdownMenuShortcut>
-                        </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                        onClick={() => {
-                            setCurrentRow(row.original)
-                            setOpen('edit')
-                        }}
-                    >
-                        Edit
-                        <DropdownMenuShortcut>
-                            <UserPen size={16} />
-                        </DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem
-                        onClick={() => {
-                            setCurrentRow(row.original)
-                            setOpen('delete')
-                        }}
-                        className='text-red-500!'
-                    >
-                        Delete
-                        <DropdownMenuShortcut>
-                            <Trash2 size={16} />
-                        </DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
-        </>
+        <ButtonGroup>
+            <Button variant={'outline'} size={'sm'} asChild>
+                <Link href={`/organizations/${row.original.id}`} className='space-x-2'>
+                    <Search size={16} />
+                </Link>
+            </Button>
+            <Button variant={'outline'} size={'sm'} onClick={() => {
+                setCurrentRow(row.original)
+                setOpen('edit')
+            }}>
+                <SquarePen />
+            </Button>
+            <Button variant={'destructive'} size={'sm'} onClick={() => {
+                setCurrentRow(row.original)
+                setOpen('delete')
+            }}>
+                <Trash2 />
+            </Button>
+        </ButtonGroup>
     )
 }

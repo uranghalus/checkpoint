@@ -1,6 +1,10 @@
-import { createOrganization, deleteOrganization, deleteOrganizationsBulk, getOrganizations, updateOrganization } from "@/action/organization-action";
+import { createOrganization, deleteOrganization, deleteOrganizationsBulk, getOrganizationDetail, getOrganizations, updateOrganization } from "@/action/organization-action";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-
+type UseOrganizationDetailParams = {
+    organizationId?: string
+    organizationSlug?: string
+    membersLimit?: number
+}
 export function useOrganizations({
     page,
     pageSize,
@@ -79,5 +83,25 @@ export function useDeleteOrganizationsBulk() {
                 queryKey: ['organizations'],
             })
         },
+    })
+}
+export function useOrganizationDetail({
+    organizationId,
+    organizationSlug,
+    membersLimit = 250,
+}: UseOrganizationDetailParams) {
+    return useQuery({
+        queryKey: [
+            'organization',
+            organizationId ?? organizationSlug,
+            membersLimit,
+        ],
+        queryFn: () =>
+            getOrganizationDetail({
+                organizationId: organizationId as string,
+                organizationSlug: organizationSlug,
+                membersLimit: membersLimit,
+            }),
+        enabled: Boolean(organizationId || organizationSlug),
     })
 }

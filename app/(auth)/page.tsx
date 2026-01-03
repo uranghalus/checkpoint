@@ -4,7 +4,7 @@ import { Metadata } from "next";
 
 
 export const metadata: Metadata = {
-  title: 'CheckPoint - Masuk',
+  title: 'Masuk',
   description: 'Dashboard page',
 };
 export default function Home() {
@@ -35,6 +35,7 @@ export default function Home() {
         </a>
         .
       </p>
+      <FloatingThemeMenu />
     </>
   );
 }
