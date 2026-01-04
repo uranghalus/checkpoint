@@ -1,15 +1,7 @@
 'use client'
 import { type Row } from '@tanstack/react-table'
-import { EllipsisIcon, EllipsisVerticalIcon, Search, SquarePen, Trash2, User, UserPen, Users } from 'lucide-react'
+import { Search, SquarePen, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuShortcut,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { type Organization } from '@/generated/prisma/client'
 import { useDialog } from '@/context/dialog-provider'
 import Link from 'next/link'

@@ -1,24 +1,25 @@
-'use client'
 
-import { useOrganizationDetail } from '@/hooks/use-organization'
-import { useParams } from 'next/navigation'
+import { Main } from '@/components/main'
+import OrgOverviewCard from './components/org-overview-card'
 
-
-export default function OrganizationDetailClient() {
-    const { orgId } = useParams<{ orgId: string }>()
-
-    const { data, isLoading, error } = useOrganizationDetail({
-        organizationId: orgId,
-    })
-
-    if (isLoading) return <div>Loading...</div>
-    if (error) return <div>Failed to load organization</div>
-
+type PageProps = {
+    params: {
+        orgId: string
+    }
+}
+export default async function OrganizationDetailClient({ params }: PageProps) {
+    const { orgId } = await params
     return (
-        <div className="rounded-md bg-muted p-4">
-            <pre className="text-sm overflow-auto">
-                {JSON.stringify(data, null, 2)}
-            </pre>
-        </div>
+        <Main fluid className='space-y-6'>
+            <div>
+                <h1 className="text-2xl font-semibold">
+                    Dashboard
+                </h1>
+                <p className="text-sm text-muted-foreground">
+                    asdasdas
+                </p>
+            </div>
+            <OrgOverviewCard orgId={orgId} />
+        </Main>
     )
 }
