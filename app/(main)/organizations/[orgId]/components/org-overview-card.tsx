@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { useOrganizationDetail } from "@/hooks/use-organization"
@@ -12,11 +13,11 @@ export default function OrgOverviewCard({ orgId }: Props) {
     const { data, isLoading, error } = useOrganizationDetail({
         organizationId: orgId,
     })
-    console.log("Data Loading: ", data);
+
     if (isLoading) return <div>Loading...</div>
     if (error) return <div>Failed to load organization</div>
 
     return (
-        <OrganizationTabs data={data} />
+        <OrganizationTabs data={data as any} />
     )
 }

@@ -11,7 +11,17 @@ import {
 import { OrganizationOverview } from './organization-overview-'
 
 
-export function OrganizationTabs({ data }: { data: any }) {
+type OrganizationTabsProps = {
+    data: {
+        id: string
+        name: string
+        slug: string
+        createdAt: string
+        members: any[]
+    }
+}
+
+export function OrganizationTabs({ data }: OrganizationTabsProps) {
     const router = useRouter()
     const searchParams = useSearchParams()
 
@@ -24,7 +34,7 @@ export function OrganizationTabs({ data }: { data: any }) {
     }
 
     return (
-        <Tabs value={activeTab} onValueChange={onTabChange}>
+        <Tabs value={activeTab} onValueChange={onTabChange} className="space-y-4">
             <TabsList>
                 <TabsTrigger value="overview">Overview</TabsTrigger>
                 <TabsTrigger value="members">
@@ -33,12 +43,12 @@ export function OrganizationTabs({ data }: { data: any }) {
             </TabsList>
 
             <TabsContent value="overview">
-                <OrganizationOverview data={data.organization} />
+                <OrganizationOverview data={data} />
             </TabsContent>
 
             <TabsContent value="members">
                 {/* <OrganizationMembersTable
-                    organizationId={data.organization.id}
+                    organizationId={data.id}
                     members={data.members}
                 /> */}
             </TabsContent>
